@@ -24,7 +24,17 @@ const isUserExists = async (email) => {
   }
 };
 
+const formatUser = (userProfile) => ({
+  email: userProfile.user.email,
+  full_name: userProfile.full_name,
+  address: userProfile.address,
+  role: userProfile.role.name,
+  createdAt: userProfile.createdAt,
+  updatedAt: userProfile.updatedAt,
+});
+
 module.exports = {
   generateToken,
   isUserExists,
+  formatUser,
 };

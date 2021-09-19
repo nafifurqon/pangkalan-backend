@@ -2,6 +2,8 @@ const {
   Model,
 } = require('sequelize');
 
+const bcrypt = require('../libs/bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,6 +15,34 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       const { UserProfile } = models;
       this.hasOne(UserProfile, { foreignKey: 'user_id', as: 'user_profile' });
+    }
+
+    static encrypt(password) {
+      return bcrypt.encrypt(password, 12);
+    }
+
+    checkPassword(password) {
+      return bcrypt.compare(password, this.password);
+    }
+
+    static async register({ email, password }) {
+      const encryptedPassword = this.encrypt(password);
+
+      return this.create({ email, password: encryptedPassword });
+    }
+
+    static async authenticate({ email, password }) {
+      try {
+        const user = await this.findOne({ where: { email } });
+        if (!user) return Promise.reject(new Error('User not registered'));
+
+        const isPasswordValid = user.checkPassword(password);
+        if (!isPasswordValid) return Promise.reject(new Error('Wrong password'));
+
+        return Promise.resolve(user);
+      } catch (error) {
+        return Promise.reject(error);
+      }
     }
   }
   User.init({

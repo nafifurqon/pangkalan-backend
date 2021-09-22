@@ -42,7 +42,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const { Op } = Sequelize;
-    await queryInterface('roles', {
+    await queryInterface.bulkDelete('roles', {
       name: { [Op.in]: ['Agen', 'Pangklan', 'UMKM', 'Admin'] },
     });
   },

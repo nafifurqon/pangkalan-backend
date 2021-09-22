@@ -13,10 +13,10 @@ const roles = [
 ];
 
 const userPayload = {
-  email: 'test2@email.com',
-  password: 'pa$$wordTest8',
-  full_name: 'Pangkalan Test Tambun Selatan',
-  address: 'Tambun Selatan',
+  email: 'test.manchester@email.com',
+  password: 'pa$$wordTest82',
+  full_name: 'Pangkalan Test Manchester',
+  address: 'Manchester, England',
   role_id: roles[1].id,
 };
 

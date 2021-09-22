@@ -21,21 +21,11 @@ const userPayload = {
 };
 
 afterAll(async () => {
-  const userProfile = await service.userProfile.get({
-    full_name: userPayload.full_name,
-    address: userPayload.address,
-    role_id: userPayload.role_id,
-  });
-
-  if (userProfile.status) {
-    await service.userProfile.remove({ id: userProfile.data.id });
-    await service.user.remove({
-      id: userProfile.data.user_id,
-    });
-  }
+  await service.userProfile.removeAll();
+  await service.user.removeAll();
 });
 
-describe('User.register email validation', () => {
+describe('User.register', () => {
   it('should be successfully create user', async () => {
     res = await request
       .post('/users/register')
@@ -89,5 +79,49 @@ describe('User.register email validation', () => {
     expect(res.body).toHaveProperty('status', false);
     expect(res.body).toHaveProperty('message', 'Email cannot be empty');
     expect(res.body).toHaveProperty('data', null);
+  });
+
+  it('should still successfully create user when full_name and address is empty', async () => {
+    const user = { ...userPayload };
+    user.email = 'test123456@email.com';
+    user.password = 'pa$$wordTest8';
+    user.full_name = '';
+    user.address = '';
+
+    res = await request
+      .post('/users/register')
+      .send(user);
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty('status', true);
+    expect(res.body).toHaveProperty('message', 'Successfully resgitered user');
+    expect(res.body).toHaveProperty('data');
+
+    expect(res.body.data).toHaveProperty('email', user.email);
+    expect(res.body.data).toHaveProperty('full_name', user.full_name);
+    expect(res.body.data).toHaveProperty('address', user.address);
+    expect(res.body.data).toHaveProperty('role', roles[1].name);
+  });
+
+  it('should still successfully create user when full_name and address is undefined', async () => {
+    const user = { ...userPayload };
+    user.email = 'test123coba@email.com';
+    user.password = 'pa$$wordTest87654';
+    delete user.full_name;
+    delete user.address;
+
+    res = await request
+      .post('/users/register')
+      .send(user);
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty('status', true);
+    expect(res.body).toHaveProperty('message', 'Successfully resgitered user');
+    expect(res.body).toHaveProperty('data');
+
+    expect(res.body.data).toHaveProperty('email', user.email);
+    expect(res.body.data).toHaveProperty('full_name', '');
+    expect(res.body.data).toHaveProperty('address', '');
+    expect(res.body.data).toHaveProperty('role', roles[1].name);
   });
 });

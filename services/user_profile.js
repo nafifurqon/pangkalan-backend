@@ -42,7 +42,17 @@ const remove = async (payload) => {
       where: payload,
     });
 
-    return response.success(user, 'Successfully remove user');
+    return response.success(user, 'Successfully remove user profie');
+  } catch (error) {
+    return response.failed(null, error.mesage);
+  }
+};
+
+const removeAll = async () => {
+  try {
+    const user = await UserProfile.sync({ force: true });
+
+    return response.success(user, 'Successfully remove all user profile');
   } catch (error) {
     return response.failed(null, error.mesage);
   }
@@ -53,4 +63,5 @@ module.exports = {
   getById,
   get,
   remove,
+  removeAll,
 };

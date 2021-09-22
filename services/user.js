@@ -13,6 +13,17 @@ const remove = async (payload) => {
   }
 };
 
+const removeAll = async () => {
+  try {
+    const user = await User.sync({ force: true });
+
+    return response.success(user, 'Successfully remove all user');
+  } catch (error) {
+    return response.failed(null, error.mesage);
+  }
+};
+
 module.exports = {
   remove,
+  removeAll,
 };

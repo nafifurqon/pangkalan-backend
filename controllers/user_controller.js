@@ -6,8 +6,12 @@ const service = require('../services');
 const register = async (req, res) => {
   try {
     const {
-      email, password, full_name, address, role_id,
+      email, password, role_id,
     } = req.body;
+
+    // eslint-disable-next-line camelcase
+    const full_name = req.body.full_name || '';
+    const address = req.body.address || '';
 
     const user = await User.register({ email, password });
 

@@ -12,6 +12,7 @@
     },
     "rules": {
         "no-console":["warn", { "allow": ["warn", "error"] }],
-        "camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }]
+        "camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
+        "consistent-return": "off"
     }
 }

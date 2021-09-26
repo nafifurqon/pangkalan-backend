@@ -9,7 +9,8 @@ router.get('/', (req, res) => {
   res.send('respond with a resource');
 });
 
-router.post('/register', validation.register, user.register);
+router.post('/register', validation.user, user.register);
+router.post('/login', validation.user, user.login);
 router.delete('/:id', user.destroy);
 
 module.exports = router;

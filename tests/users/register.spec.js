@@ -103,7 +103,7 @@ describe('User.register', () => {
     expect(res.body.data).toHaveProperty('role', roles[1].name);
   });
 
-  it('should still successfully create user when full_name and address is undefined', async () => {
+  it('should still successfully create user when full_name and address is undefin', async () => {
     const user = { ...userPayload };
     user.email = 'test123coba@email.com';
     user.password = 'pa$$wordTest87654';
@@ -123,5 +123,20 @@ describe('User.register', () => {
     expect(res.body.data).toHaveProperty('full_name', '');
     expect(res.body.data).toHaveProperty('address', '');
     expect(res.body.data).toHaveProperty('role', roles[1].name);
+  });
+
+  it('should be failed create user when role is not found', async () => {
+    const user = { ...userPayload };
+    user.email = 'rolenotfound@email.com';
+    user.role_id = 25;
+
+    res = await request
+      .post('/users/register')
+      .send(user);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('status', false);
+    expect(res.body).toHaveProperty('message', 'Role is not found');
+    expect(res.body).toHaveProperty('data', null);
   });
 });

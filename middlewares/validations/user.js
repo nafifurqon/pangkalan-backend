@@ -61,7 +61,7 @@ const rules = [
     .trim(),
 ];
 
-const register = [
+const user = [
   rules,
   (req, res, next) => {
     const passwordValid = validationPassword(req.body.password);
@@ -80,4 +80,4 @@ const register = [
   },
 ];
 
-module.exports = { register };
+module.exports = { user };

@@ -18,7 +18,11 @@ const getById = async (id) => {
       where: { id },
     });
 
-    return response.success(userProfile, 'Successfully get user profile by id');
+    if (userProfile) {
+      return response.success(userProfile, 'Successfully get user profile by id');
+    }
+
+    return response.failed(null, 'User profile is not found');
   } catch (error) {
     return response.failed(null, error.mesage);
   }
@@ -27,10 +31,15 @@ const getById = async (id) => {
 const get = async (payload) => {
   try {
     const userProfile = await UserProfile.findOne({
+      include: ['user', 'role'],
       where: payload,
     });
 
-    return response.success(userProfile, 'Successfully get user profile');
+    if (userProfile) {
+      return response.success(userProfile, 'Successfully get user profile');
+    }
+
+    return response.failed(null, 'User profile is not found');
   } catch (error) {
     return response.failed(null, error.mesage);
   }

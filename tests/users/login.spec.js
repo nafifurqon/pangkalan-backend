@@ -37,8 +37,6 @@ describe('User.register', () => {
       .post('/users/login')
       .send(userPayload);
 
-    console.log('res.body', res.body);
-
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('status', true);
     expect(res.body).toHaveProperty('message', 'Successfully login user');
@@ -51,5 +49,33 @@ describe('User.register', () => {
 
     expect(res.body.data).toHaveProperty('token');
     expect(typeof res.body.data.token).toBe('string');
+  });
+
+  it('should be failed login user when email is not registered yet', async () => {
+    const user = { ...userPayload };
+    user.email = 'notregistered@email.com';
+
+    res = await request
+      .post('/users/login')
+      .send(user);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('status', false);
+    expect(res.body).toHaveProperty('message', 'User not registered');
+    expect(res.body).toHaveProperty('data', null);
+  });
+
+  it('should be failed login user when password is wrong', async () => {
+    const user = { ...userPayload };
+    user.password = 'CGKgkjvjkh^%76576';
+
+    res = await request
+      .post('/users/login')
+      .send(user);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('status', false);
+    expect(res.body).toHaveProperty('message', 'Wrong password');
+    expect(res.body).toHaveProperty('data', null);
   });
 });

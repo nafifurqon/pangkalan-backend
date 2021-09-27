@@ -52,7 +52,14 @@ const login = async (req, res) => {
       email, password,
     } = req.body;
 
-    const user = await User.authenticate({ email, password });
+    let user = null;
+
+    try {
+      user = await User.authenticate({ email, password });
+    } catch (error) {
+      response.failed(res, 404, error.message, null);
+      return;
+    }
 
     const userProfile = await service.userProfile.get({ user_id: user.id });
     if (!userProfile.status) {

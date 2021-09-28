@@ -64,16 +64,16 @@ const rules = [
 const user = [
   rules,
   (req, res, next) => {
-    const passwordValid = validationPassword(req.body.password);
-
-    if (!passwordValid.status) {
-      return response.failed(res, 422, passwordValid.message, null);
-    }
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return response.failed(res, 422, errors.errors[0].msg, null);
+    }
+
+    const passwordValid = validationPassword(req.body.password);
+
+    if (!passwordValid.status) {
+      return response.failed(res, 422, passwordValid.message, null);
     }
 
     next();

@@ -5,20 +5,10 @@ const service = require('../../services');
 
 const request = supertest(app);
 
-const roles = [
-  { id: 1, name: 'Agen' },
-  { id: 2, name: 'Pangkalan' },
-  { id: 3, name: 'UMKM' },
-  { id: 4, name: 'Admin' },
-];
+const mock = require('../mock');
 
-const userRegister = {
-  email: 'test@email.com',
-  password: 'pa$$wordTest8',
-  full_name: 'Pangkalan Test Tambun Selatan',
-  address: 'Tambun Selatan',
-  role_id: roles[1].id,
-};
+const userRegister = mock.user;
+const { roles } = mock;
 
 const userLogin = {
   email: 'test@email.com',

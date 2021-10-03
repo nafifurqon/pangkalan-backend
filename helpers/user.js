@@ -26,6 +26,7 @@ const isUserExists = async (email) => {
 
 const formatUser = (userProfile) => ({
   user_id: userProfile.user_id,
+  user_profile_id: userProfile.id,
   email: userProfile.user.email,
   full_name: userProfile.full_name,
   address: userProfile.address,

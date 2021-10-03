@@ -1,5 +1,5 @@
-const { User } = require('../models');
-const response = require('../reponses/service');
+const { User, sequelize } = require('../models');
+// const response = require('../reponses/service');
 
 const remove = async (payload) => {
   try {
@@ -7,19 +7,19 @@ const remove = async (payload) => {
       where: payload,
     });
 
-    return response.success(user, 'Successfully remove user');
+    return Promise.resolve(user);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 
 const removeAll = async () => {
   try {
-    const user = await User.sync({ force: true });
+    const user = await sequelize.query('delete from users');
 
-    return response.success(user, 'Successfully remove all user');
+    return Promise.resolve(user);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 

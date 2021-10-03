@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       const { Transaction } = models;
       this.belongsTo(Transaction, { foreignKey: 'transaction_id', as: 'transaction' });
-      this.belongsTo(Transaction, { foreignKey: 'status', as: 'status' });
+      this.belongsTo(Transaction, { foreignKey: 'status', as: 'transaction_status' });
     }
   }
   History.init({

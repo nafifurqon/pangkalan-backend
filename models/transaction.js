@@ -10,9 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      const { UserProfile, History } = models;
-      this.belongsTo(UserProfile, { foreignKey: 'seller', as: 'seller' });
+      const { UserProfile, History, Status } = models;
+      this.belongsTo(UserProfile, { foreignKey: 'seller', as: 'seller_user' });
       this.hasMany(History, { foreignKey: 'transaction_id', as: 'histories' });
+      this.belongsTo(Status, { foreignKey: 'status', as: 'transaction_status' });
     }
   }
   Transaction.init({
@@ -37,6 +38,16 @@ module.exports = (sequelize, DataTypes) => {
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    status: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'statuses',
+        key: 'id',
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+      },
     },
   }, {
     sequelize,

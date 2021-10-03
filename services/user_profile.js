@@ -1,13 +1,13 @@
-const { UserProfile } = require('../models');
-const response = require('../reponses/service');
+const { UserProfile, sequelize } = require('../models');
+// const response = require('../reponses');
 
 const create = async (payload) => {
   try {
     const userProfile = await UserProfile.create(payload);
 
-    return response.success(userProfile, 'Successfully create user profile');
+    return Promise.resolve(userProfile);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 
@@ -18,13 +18,9 @@ const getById = async (id) => {
       where: { id },
     });
 
-    if (userProfile) {
-      return response.success(userProfile, 'Successfully get user profile by id');
-    }
-
-    return response.failed(null, 'User profile is not found');
+    return Promise.resolve(userProfile);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 
@@ -35,35 +31,31 @@ const get = async (payload) => {
       where: payload,
     });
 
-    if (userProfile) {
-      return response.success(userProfile, 'Successfully get user profile');
-    }
-
-    return response.failed(null, 'User profile is not found');
+    return Promise.resolve(userProfile);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 
 const remove = async (payload) => {
   try {
-    const user = await UserProfile.destroy({
+    const userProfile = await UserProfile.destroy({
       where: payload,
     });
 
-    return response.success(user, 'Successfully remove user profie');
+    return Promise.resolve(userProfile);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 
 const removeAll = async () => {
   try {
-    const user = await UserProfile.sync({ force: true });
+    const userProfile = await sequelize.query('delete from user_profiles');
 
-    return response.success(user, 'Successfully remove all user profile');
+    return Promise.resolve(userProfile);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 

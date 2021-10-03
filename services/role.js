@@ -1,19 +1,14 @@
 const { Role } = require('../models');
-const response = require('../reponses/service');
 
 const get = async (payload) => {
   try {
-    const userProfile = await Role.findOne({
+    const role = await Role.findOne({
       where: payload,
     });
 
-    if (userProfile) {
-      return response.success(userProfile, 'Successfully get role');
-    }
-
-    return response.failed(null, 'Role is not found');
+    return Promise.resolve(role);
   } catch (error) {
-    return response.failed(null, error.mesage);
+    return Promise.reject(error);
   }
 };
 

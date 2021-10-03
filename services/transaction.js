@@ -1,0 +1,37 @@
+const { Transaction, sequelize } = require('../models');
+// const response = require('../reponses/service');
+
+const create = async (payload) => {
+  try {
+    const transaction = await Transaction.create(payload);
+
+    return Promise.resolve(transaction);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const removeAll = async () => {
+  try {
+    const transaction = await sequelize.query('delete from transactions');
+
+    return Promise.resolve(transaction);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const get = async (payload) => {
+  try {
+    const transaction = await Transaction.findOne({
+      include: ['transaction_status', 'seller_user'],
+      where: payload,
+    });
+
+    return Promise.resolve(transaction);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+module.exports = { create, removeAll, get };

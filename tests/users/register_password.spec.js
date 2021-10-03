@@ -5,20 +5,10 @@ const service = require('../../services');
 
 const request = supertest(app);
 
-const roles = [
-  { id: 1, name: 'Agen' },
-  { id: 2, name: 'Pangkalan' },
-  { id: 3, name: 'UMKM' },
-  { id: 4, name: 'Admin' },
-];
+const mock = require('../mock');
 
-const userPayload = {
-  email: 'test.manchester@email.com',
-  password: 'pa$$wordTest82',
-  full_name: 'Pangkalan Test Manchester',
-  address: 'Manchester, England',
-  role_id: roles[1].id,
-};
+const userPayload = mock.user;
+const { roles } = mock;
 
 afterAll(async () => {
   const userProfile = await service.userProfile.get({

@@ -11,18 +11,8 @@ const userPayload = mock.user;
 const { roles } = mock;
 
 afterAll(async () => {
-  const userProfile = await service.userProfile.get({
-    full_name: userPayload.full_name,
-    address: userPayload.address,
-    role_id: userPayload.role_id,
-  });
-
-  if (userProfile.status) {
-    await service.userProfile.remove({ id: userProfile.data.id });
-    await service.user.remove({
-      id: userProfile.data.user_id,
-    });
-  }
+  await service.userProfile.removeAll();
+  await service.user.removeAll();
 });
 
 describe('User.register password validation', () => {

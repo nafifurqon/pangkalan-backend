@@ -36,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'cascade',
       },
     },
-    history_date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
   }, {
     sequelize,
     modelName: 'History',

@@ -27,10 +27,6 @@ module.exports = {
           onUpdate: 'cascade',
         },
       },
-      history_date: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

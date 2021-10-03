@@ -1,13 +1,12 @@
 const { History } = require('../models');
-const response = require('../reponses/service');
 
 const create = async (payload) => {
   try {
     const history = await History.create(payload);
 
-    return response.success(history, 'Successfully create history');
+    return Promise.resolve(history);
   } catch (error) {
-    return response.failed(null, error.message);
+    return Promise.reject(error);
   }
 };
 
@@ -15,10 +14,20 @@ const removeAll = async () => {
   try {
     const history = await History.sync({ force: true });
 
-    return response.success(history, 'Successfully remove all history');
+    return Promise.resolve(history);
   } catch (error) {
-    return response.failed(null, error.message);
+    return Promise.reject(error);
   }
 };
 
-module.exports = { create, removeAll };
+const find = async (payload) => {
+  try {
+    const history = await History.findOne({ where: payload });
+
+    return Promise.resolve(history);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+module.exports = { create, removeAll, find };

@@ -37,6 +37,23 @@ const create = async (req, res) => {
   }
 };
 
+const get = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const transaction = await service.transaction.get({ id });
+    if (!transaction) {
+      response.failed(res, 404, 'Transaction is not found', null);
+      return;
+    }
+
+    response.success(res, 200, 'Successfully get transaction', transaction);
+  } catch (error) {
+    response.failed(res, 500, error.message, null);
+  }
+};
+
 module.exports = {
   create,
+  get,
 };

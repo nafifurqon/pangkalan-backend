@@ -24,7 +24,7 @@ const removeAll = async () => {
 const get = async (payload) => {
   try {
     const transaction = await Transaction.findOne({
-      include: ['transaction_status', 'seller_user'],
+      include: ['transaction_status', 'seller_user', 'histories'],
       where: payload,
     });
 

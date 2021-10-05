@@ -105,7 +105,7 @@ describe('Transaction.create', () => {
     expect(res.body).toHaveProperty('data', null);
   });
 
-  it('should create history when successfully create transaction', async () => {
+  it('should create history to database when successfully create transaction', async () => {
     res = await request
       .post('/transactions')
       .set('Authorization', token)

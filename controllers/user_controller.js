@@ -63,10 +63,10 @@ const login = async (req, res) => {
     }
 
     const data = help.formatUser(userProfile);
-    const token = help.generateToken(data);
+    const tokenGenerated = help.generateToken(data);
     const result = {
       ...data,
-      token,
+      ...tokenGenerated,
     };
 
     response.success(res, 200, 'Successfully login user', result);

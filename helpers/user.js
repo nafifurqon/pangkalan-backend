@@ -3,9 +3,14 @@ const { User } = require('../models');
 
 const generateToken = (payload) => {
   const secretKey = '18ab84d5ba44441582bbb8ed65cb9b35330781debfe7869f6a08104974b7411be17bfb47439513f9b0dd4a0298d9b08de091537ea93fcc05c1088a192f8ff785';
+  const expiresIn = '1d';
 
-  const token = jwt.sign(payload, secretKey);
-  return token;
+  const tokenSigned = jwt.sign(payload, secretKey, { expiresIn });
+
+  return {
+    token: `Bearer ${tokenSigned}`,
+    expires_in: expiresIn,
+  };
 };
 
 const isUserExists = async (email) => {

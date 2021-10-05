@@ -8,7 +8,7 @@ const request = supertest(app);
 const mock = require('../mock');
 
 const userRegister = mock.user;
-const { roles } = mock;
+const { roles, expiresIn } = mock;
 
 const userLogin = {
   email: 'test@email.com',
@@ -41,6 +41,7 @@ describe('User.login', () => {
     expect(res.body.data).toHaveProperty('full_name', userRegister.full_name);
     expect(res.body.data).toHaveProperty('address', userRegister.address);
     expect(res.body.data).toHaveProperty('role', roles[1].name);
+    expect(res.body.data).toHaveProperty('expires_in', expiresIn);
 
     expect(res.body.data).toHaveProperty('token');
     expect(typeof res.body.data.token).toBe('string');

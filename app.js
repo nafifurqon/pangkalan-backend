@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
+const passportJwt = require('./libs/passport_jwt');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const transactionRouter = require('./routes/transactions');

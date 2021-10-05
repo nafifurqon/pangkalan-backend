@@ -9,18 +9,24 @@ const request = supertest(app);
 const mock = require('../mock');
 
 const seller = mock.user;
-const { statuses, another_transaction } = mock;
+const { statuses, another_transaction, loginUser } = mock;
 const transaction = { ...mock.transaction, seller: null };
 
+let token = null;
+
 beforeAll(async () => {
-  res = await request
+  const res = await request
     .post('/users/register')
     .send(seller);
 
-  console.log('res.body seller', res.body);
-
   transaction.seller = res.body.data.user_profile_id;
   another_transaction.seller = res.body.data.user_profile_id;
+
+  const user = await request
+    .post('/users/login')
+    .send(loginUser);
+
+  token = user.body.data.token;
 });
 
 afterAll(async () => {
@@ -34,9 +40,8 @@ describe('Transaction.create', () => {
   it('should successfully create transaction', async () => {
     res = await request
       .post('/transactions')
+      .set('Authorization', token)
       .send(transaction);
-
-    console.log('res.body', res.body);
 
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty('status', true);
@@ -55,6 +60,7 @@ describe('Transaction.create', () => {
 
     res = await request
       .post('/transactions')
+      .set('Authorization', token)
       .send(newTransaction);
 
     expect(res.statusCode).toBe(404);
@@ -63,12 +69,14 @@ describe('Transaction.create', () => {
     expect(res.body).toHaveProperty('data', null);
   });
 
-  it('should successfully create transaction and set status to pending when status is udndefined', async () => {
+  it('should successfully create transaction and set status to pending'
+  + 'when status is udndefined', async () => {
     const newTransaction = { ...transaction };
     delete newTransaction.status;
 
     res = await request
       .post('/transactions')
+      .set('Authorization', token)
       .send(newTransaction);
 
     expect(res.statusCode).toBe(201);
@@ -88,6 +96,7 @@ describe('Transaction.create', () => {
 
     res = await request
       .post('/transactions')
+      .set('Authorization', token)
       .send(newTransaction);
 
     expect(res.statusCode).toBe(422);
@@ -99,15 +108,33 @@ describe('Transaction.create', () => {
   it('should create history when successfully create transaction', async () => {
     res = await request
       .post('/transactions')
+      .set('Authorization', token)
       .send(another_transaction);
-
-    console.log('res.body', res.body);
 
     const transactionResult = res.body.data;
 
-    const history = await service.history.find({ transaction_id: transactionResult.id });
+    const history = await service.history.find({
+      transaction_id: transactionResult.id,
+    });
 
     expect(history).toHaveProperty('transaction_id', transactionResult.id);
     expect(history).toHaveProperty('status', another_transaction.status);
+  });
+
+  it('should return unauthorized when token is not set in request header', async () => {
+    res = await request
+      .post('/transactions')
+      .send(transaction);
+
+    expect(res.statusCode).toBe(401);
+  });
+
+  it('should return unauthorized when token is invalid', async () => {
+    res = await request
+      .post('/transactions')
+      .set('Authorization', 'invalid token')
+      .send(transaction);
+
+    expect(res.statusCode).toBe(401);
   });
 });

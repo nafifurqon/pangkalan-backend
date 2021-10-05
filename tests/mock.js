@@ -36,10 +36,19 @@ const another_transaction = {
   status: statuses[1].id,
 };
 
+const expiresIn = '1d';
+
+const loginUser = {
+  email: 'test@email.com',
+  password: 'pa$$wordTest8',
+};
+
 module.exports = {
   roles,
   user,
   transaction,
   statuses,
   another_transaction,
+  expiresIn,
+  loginUser,
 };

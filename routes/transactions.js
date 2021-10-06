@@ -8,5 +8,6 @@ const restrict = require('../middlewares/resctrict');
 
 router.post('/', restrict.user, transaction_validation.validate, transaction.create);
 router.get('/:id', restrict.user, transaction.get);
+router.put('/:id', restrict.user, transaction_validation.validate, transaction.update);
 
 module.exports = router;

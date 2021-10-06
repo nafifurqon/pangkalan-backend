@@ -34,4 +34,20 @@ const get = async (payload) => {
   }
 };
 
-module.exports = { create, removeAll, get };
+const update = async (payload, id) => {
+  try {
+    const result = await Transaction.update(payload, {
+      where: { id },
+    });
+
+    const transaction = result[0];
+
+    return Promise.resolve(transaction);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+module.exports = {
+  create, removeAll, get, update,
+};

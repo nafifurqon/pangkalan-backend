@@ -53,7 +53,48 @@ const get = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      do_number, seller, customer, quantity,
+    } = req.body;
+
+    const pendingStatus = await service.status.find({ name: 'Pending' });
+    const status = req.body.status || pendingStatus.id;
+
+    let transaction = await service.transaction.get({ id });
+    if (!transaction) {
+      response.failed(res, 404, 'Transaction is not found', null);
+      return;
+    }
+
+    const registeredSeller = await service.userProfile.getById(seller);
+
+    if (!registeredSeller) {
+      response.failed(res, 404, 'Seller not found', null);
+      return;
+    }
+
+    if (seller !== transaction.seller) {
+      response.failed(res, 400, 'Can not update seller', null);
+      return;
+    }
+
+    transaction = await service.transaction.update({
+      do_number, seller, customer, quantity, status,
+    }, id);
+
+    if (transaction) await service.history.create({ transaction_id: id, status });
+
+    response.success(res, 200, 'Successfully updated transaction', transaction);
+  } catch (error) {
+    response.failed(res, 500, error.message, null);
+  }
+};
+
 module.exports = {
   create,
   get,
+  update,
 };

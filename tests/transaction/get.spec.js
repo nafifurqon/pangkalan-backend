@@ -9,7 +9,7 @@ const request = supertest(app);
 const mock = require('../mock');
 
 const seller = mock.user;
-const { another_transaction, loginUser } = mock;
+const { loginUser } = mock;
 const transaction = { ...mock.transaction, seller: null };
 
 let token = null;
@@ -21,7 +21,6 @@ beforeAll(async () => {
     .send(seller);
 
   transaction.seller = res.body.data.user_profile_id;
-  another_transaction.seller = res.body.data.user_profile_id;
 
   const user = await request
     .post('/users/login')
@@ -48,8 +47,7 @@ describe('Transaction.get', () => {
   it('should successfully get transaction', async () => {
     res = await request
       .get(`/transactions/${transactionId}`)
-      .set('Authorization', token)
-      .send(transaction);
+      .set('Authorization', token);
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('status', true);
@@ -74,8 +72,7 @@ describe('Transaction.get', () => {
   it('should failed get transaction when transaction is not found', async () => {
     res = await request
       .get('/transactions/8654565')
-      .set('Authorization', token)
-      .send(transaction);
+      .set('Authorization', token);
 
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('status', false);
@@ -85,8 +82,7 @@ describe('Transaction.get', () => {
 
   it('should return unauthorized when token is not set in request header', async () => {
     res = await request
-      .get(`/transactions/${transactionId}`)
-      .send(transaction);
+      .get(`/transactions/${transactionId}`);
 
     expect(res.statusCode).toBe(401);
   });
@@ -94,8 +90,7 @@ describe('Transaction.get', () => {
   it('should return unauthorized when token is invalid', async () => {
     res = await request
       .get(`/transactions/${transactionId}`)
-      .set('Authorization', 'invalid token')
-      .send(transaction);
+      .set('Authorization', 'invalid token');
 
     expect(res.statusCode).toBe(401);
   });

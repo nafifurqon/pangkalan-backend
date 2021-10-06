@@ -14,6 +14,14 @@ const user = {
   role_id: roles[1].id,
 };
 
+const another_user = {
+  email: 'test2@email.com',
+  password: 'pa$$wordTest82',
+  full_name: 'Pangkalan Test Tambun Selatan 2',
+  address: 'Tambun Selatan 2',
+  role_id: roles[1].id,
+};
+
 const statuses = [
   { id: 1, name: 'Success' },
   { id: 2, name: 'Pending' },
@@ -28,12 +36,28 @@ const transaction = {
   status: statuses[1].id,
 };
 
+const updated_transaction = {
+  do_number: 'do1',
+  seller: 1,
+  customer: 'Pak RW',
+  quantity: 5,
+  status: statuses[0].id,
+};
+
 const another_transaction = {
   do_number: 'do2',
   seller: 1,
   customer: 'Warung Pak Budi',
   quantity: 10,
   status: statuses[1].id,
+};
+
+const update_another_transaction = {
+  do_number: 'do1',
+  seller: 1,
+  customer: 'Warung Pak Budi',
+  quantity: 10,
+  status: statuses[0].id,
 };
 
 const expiresIn = '1d';
@@ -51,4 +75,7 @@ module.exports = {
   another_transaction,
   expiresIn,
   loginUser,
+  updated_transaction,
+  another_user,
+  update_another_transaction,
 };

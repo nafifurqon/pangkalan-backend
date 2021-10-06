@@ -1,5 +1,4 @@
 const { Transaction, sequelize } = require('../models');
-// const response = require('../reponses/service');
 
 const create = async (payload) => {
   try {
@@ -48,6 +47,18 @@ const update = async (payload, id) => {
   }
 };
 
+const remove = async (payload) => {
+  try {
+    const transaction = await Transaction.destroy({
+      where: payload,
+    });
+
+    return Promise.resolve(transaction);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 module.exports = {
-  create, removeAll, get, update,
+  create, removeAll, get, update, remove,
 };

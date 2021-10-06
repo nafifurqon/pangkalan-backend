@@ -30,4 +30,18 @@ const find = async (payload) => {
   }
 };
 
-module.exports = { create, removeAll, find };
+const remove = async (payload) => {
+  try {
+    const history = await History.destroy({
+      where: payload,
+    });
+
+    return Promise.resolve(history);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+module.exports = {
+  create, removeAll, find, remove,
+};

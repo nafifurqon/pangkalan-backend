@@ -59,6 +59,35 @@ const remove = async (payload) => {
   }
 };
 
+const getAll = async (payload) => {
+  try {
+    const { seller, month } = payload;
+
+    let transactions = [];
+
+    if (month) {
+      const transactionsByMonth = await sequelize.query(
+        `select * from transactions 
+        where extract(month from "createdAt") = ${month} 
+        and seller = ${seller}`,
+      );
+
+      [transactions] = transactionsByMonth;
+    } else {
+      transactions = await Transaction.findAll({ where: { seller } });
+    }
+
+    return Promise.resolve(transactions);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 module.exports = {
-  create, removeAll, get, update, remove,
+  create,
+  removeAll,
+  get,
+  update,
+  remove,
+  getAll,
 };

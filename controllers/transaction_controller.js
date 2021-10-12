@@ -113,9 +113,31 @@ const remove = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { month } = req.query;
+
+    const transactions = await service.transaction.getAll({
+      seller: id,
+      month,
+    });
+
+    if (!transactions || transactions.length === 0) {
+      response.failed(res, 404, 'Transaction is not found', null);
+      return;
+    }
+
+    response.success(res, 200, 'Successfully get transaction', transactions);
+  } catch (error) {
+    response.failed(res, 500, error.message, null);
+  }
+};
+
 module.exports = {
   create,
   get,
   update,
   remove,
+  getAll,
 };

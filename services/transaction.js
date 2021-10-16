@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { Transaction, sequelize } = require('../models');
 
 const create = async (payload) => {
@@ -61,7 +62,9 @@ const remove = async (payload) => {
 
 const getAll = async (payload) => {
   try {
-    const { seller, date } = payload;
+    const {
+      seller, date, start_date, end_date,
+    } = payload;
 
     let transactions = [];
 
@@ -78,6 +81,14 @@ const getAll = async (payload) => {
       );
 
       [transactions] = transactionsByMonth;
+    } else if (start_date && end_date) {
+      const transactionsByDate = await sequelize.query(
+        `select * from transactions
+        where transaction_date between '${start_date}' and '${end_date}'
+        and seller = ${seller} `,
+      );
+
+      [transactions] = transactionsByDate;
     } else {
       transactions = await Transaction.findAll({ where: { seller } });
     }

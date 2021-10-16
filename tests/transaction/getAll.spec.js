@@ -106,6 +106,97 @@ describe('Transaction.getAll', () => {
     expect(res.body.data[0]).toHaveProperty('status');
   });
 
+  it('should successfully get all transaction by do_number and seller', async () => {
+    res = await request
+      .get('/transactions')
+      .query({ do_number: transaction.do_number })
+      .set('Authorization', token);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('status', true);
+    expect(res.body).toHaveProperty('message', 'Successfully get transaction');
+    expect(res.body).toHaveProperty('data');
+
+    expect(Array.isArray(res.body.data)).toBe(true);
+
+    expect(res.body.data[0]).toHaveProperty('do_number');
+    expect(res.body.data[0]).toHaveProperty('seller');
+    expect(res.body.data[0]).toHaveProperty('quantity');
+    expect(res.body.data[0]).toHaveProperty('customer');
+    expect(res.body.data[0]).toHaveProperty('transaction_date');
+    expect(res.body.data[0]).toHaveProperty('status');
+  });
+
+  it('should successfully get all transaction by customer and seller', async () => {
+    res = await request
+      .get('/transactions')
+      .query({ customer: transaction.customer.split(' ')[1] })
+      .set('Authorization', token);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('status', true);
+    expect(res.body).toHaveProperty('message', 'Successfully get transaction');
+    expect(res.body).toHaveProperty('data');
+
+    expect(Array.isArray(res.body.data)).toBe(true);
+
+    expect(res.body.data[0]).toHaveProperty('do_number');
+    expect(res.body.data[0]).toHaveProperty('seller');
+    expect(res.body.data[0]).toHaveProperty('quantity');
+    expect(res.body.data[0]).toHaveProperty('customer');
+    expect(res.body.data[0]).toHaveProperty('transaction_date');
+    expect(res.body.data[0]).toHaveProperty('status');
+  });
+
+  it('should successfully get all transaction by date, customer, and seller', async () => {
+    res = await request
+      .get('/transactions')
+      .query({
+        date: '10-2021',
+        customer: transaction.customer.split(' ')[1],
+      })
+      .set('Authorization', token);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('status', true);
+    expect(res.body).toHaveProperty('message', 'Successfully get transaction');
+    expect(res.body).toHaveProperty('data');
+
+    expect(Array.isArray(res.body.data)).toBe(true);
+
+    expect(res.body.data[0]).toHaveProperty('do_number');
+    expect(res.body.data[0]).toHaveProperty('seller');
+    expect(res.body.data[0]).toHaveProperty('quantity');
+    expect(res.body.data[0]).toHaveProperty('customer');
+    expect(res.body.data[0]).toHaveProperty('transaction_date');
+    expect(res.body.data[0]).toHaveProperty('status');
+  });
+
+  it('should successfully get all transaction by start_date/end_date, do_number, and seller', async () => {
+    res = await request
+      .get('/transactions')
+      .query({
+        start_date: '2021-10-01',
+        end_date: '2021-10-30',
+        do_number: transaction.do_number,
+      })
+      .set('Authorization', token);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('status', true);
+    expect(res.body).toHaveProperty('message', 'Successfully get transaction');
+    expect(res.body).toHaveProperty('data');
+
+    expect(Array.isArray(res.body.data)).toBe(true);
+
+    expect(res.body.data[0]).toHaveProperty('do_number');
+    expect(res.body.data[0]).toHaveProperty('seller');
+    expect(res.body.data[0]).toHaveProperty('quantity');
+    expect(res.body.data[0]).toHaveProperty('customer');
+    expect(res.body.data[0]).toHaveProperty('transaction_date');
+    expect(res.body.data[0]).toHaveProperty('status');
+  });
+
   it('should failed get all transaction by month when transaction is not found', async () => {
     res = await request
       .get('/transactions')
@@ -122,6 +213,30 @@ describe('Transaction.getAll', () => {
     res = await request
       .get('/transactions')
       .query({ start_date: '2021-01-01', end_date: '2021-01-30' })
+      .set('Authorization', token);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('status', false);
+    expect(res.body).toHaveProperty('message', 'Transaction is not found');
+    expect(res.body).toHaveProperty('data', null);
+  });
+
+  it('should failed get all transaction by do_number when transaction is not found', async () => {
+    res = await request
+      .get('/transactions')
+      .query({ do_number: 'not found do number' })
+      .set('Authorization', token);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('status', false);
+    expect(res.body).toHaveProperty('message', 'Transaction is not found');
+    expect(res.body).toHaveProperty('data', null);
+  });
+
+  it('should failed get all transaction by customer when transaction is not found', async () => {
+    res = await request
+      .get('/transactions')
+      .query({ customer: 'not found customer' })
       .set('Authorization', token);
 
     expect(res.statusCode).toBe(404);

@@ -63,32 +63,30 @@ const remove = async (payload) => {
 const getAll = async (payload) => {
   try {
     const {
-      seller, date, start_date, end_date,
+      seller, date, start_date, end_date, do_number, customer,
     } = payload;
 
     let transactions = [];
 
-    if (date) {
-      const dateArray = date.split('-');
-      const month = dateArray[0];
-      const year = dateArray[1];
+    if (date
+      || (start_date && end_date)
+      || do_number
+      || customer) {
+      const dateArray = date && date.split('-');
+      const month = dateArray && dateArray[0];
+      const year = dateArray && dateArray[1];
 
       const transactionsByMonth = await sequelize.query(
         `select * from transactions 
-        where extract(month from "transaction_date") = ${month}
-        and extract(year from "transaction_date") = ${year} 
-        and seller = ${seller}`,
+        where seller = ${seller}
+        ${date ? `and extract(month from "transaction_date") = ${month}
+        and extract(year from "transaction_date") = ${year}` : ''}
+        ${start_date && end_date ? `and transaction_date between '${start_date}' and '${end_date}'` : ''}
+        ${do_number ? `and do_number = '${do_number}'` : ''}
+        ${customer ? `and customer like '%${customer}%'` : ''}`,
       );
 
       [transactions] = transactionsByMonth;
-    } else if (start_date && end_date) {
-      const transactionsByDate = await sequelize.query(
-        `select * from transactions
-        where transaction_date between '${start_date}' and '${end_date}'
-        and seller = ${seller} `,
-      );
-
-      [transactions] = transactionsByDate;
     } else {
       transactions = await Transaction.findAll({ where: { seller } });
     }

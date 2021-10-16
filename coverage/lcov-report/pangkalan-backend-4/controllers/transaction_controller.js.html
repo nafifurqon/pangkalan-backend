@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.83% </span>
+                <span class="strong">86.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>107/143</span>
+                <span class='fraction'>124/143</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/20</span>
+                <span class='fraction'>15/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.83% </span>
+                <span class="strong">86.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>107/143</span>
+                <span class='fraction'>124/143</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -316,25 +316,25 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -402,7 +402,7 @@ const update = async (req, res) =&gt; {
   try {
     const { id } = req.params;
     const {
-      do_number, seller, customer, quantity,
+      do_number, seller, customer, quantity, transaction_date,
     } = req.body;
 &nbsp;
     const pendingStatus = await service.status.find({ name: 'Pending' });
@@ -427,7 +427,7 @@ const update = async (req, res) =&gt; {
     }
 &nbsp;
     transaction = await service.transaction.update({
-      do_number, seller, customer, quantity, status,
+      do_number, seller, customer, quantity, transaction_date, status,
     }, id);
 &nbsp;
     if (transaction) await service.history.create({ transaction_id: id, status });
@@ -458,26 +458,26 @@ const remove = async (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >  }</span>
 };
 &nbsp;
-const getAll = <span class="fstat-no" title="function not covered" >async (req, res) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    const { id } = req.user;</span>
-<span class="cstat-no" title="statement not covered" >    const { month } = req.query;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const transactions = await service.transaction.getAll({</span>
-<span class="cstat-no" title="statement not covered" >      seller: id,</span>
-<span class="cstat-no" title="statement not covered" >      month,</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (!transactions || transactions.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      response.failed(res, 404, 'Transaction is not found', null);</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    response.success(res, 200, 'Successfully get transaction', transactions);</span>
-<span class="cstat-no" title="statement not covered" >  } catch (error) {</span>
+const getAll = async (req, res) =&gt; {
+  try {
+    const { id } = req.user;
+    const { date } = req.query;
+&nbsp;
+    const transactions = await service.transaction.getAll({
+      seller: id,
+      date,
+    });
+&nbsp;
+    if (!transactions || transactions.length === 0) {
+      response.failed(res, 404, 'Transaction is not found', null);
+      return;
+    }
+&nbsp;
+    response.success(res, 200, 'Successfully get transaction', transactions);
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >    response.failed(res, 500, error.message, null);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+};
 &nbsp;
 module.exports = {
   create,
@@ -493,7 +493,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Oct 16 2021 16:36:09 GMT+0700 (Western Indonesia Time)
+                at Sat Oct 16 2021 17:04:37 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

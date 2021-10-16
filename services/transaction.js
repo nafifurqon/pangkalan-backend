@@ -61,14 +61,19 @@ const remove = async (payload) => {
 
 const getAll = async (payload) => {
   try {
-    const { seller, month } = payload;
+    const { seller, date } = payload;
 
     let transactions = [];
 
-    if (month) {
+    if (date) {
+      const dateArray = date.split('-');
+      const month = dateArray[0];
+      const year = dateArray[1];
+
       const transactionsByMonth = await sequelize.query(
         `select * from transactions 
-        where extract(month from "createdAt") = ${month} 
+        where extract(month from "transaction_date") = ${month}
+        and extract(year from "transaction_date") = ${year} 
         and seller = ${seller}`,
       );
 

@@ -116,11 +116,11 @@ const remove = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const { id } = req.user;
-    const { month } = req.query;
+    const { date } = req.query;
 
     const transactions = await service.transaction.getAll({
       seller: id,
-      month,
+      date,
     });
 
     if (!transactions || transactions.length === 0) {

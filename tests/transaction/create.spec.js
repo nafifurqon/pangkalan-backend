@@ -51,6 +51,8 @@ describe('Transaction.create', () => {
     expect(res.body.data).toHaveProperty('do_number', transaction.do_number);
     expect(res.body.data).toHaveProperty('seller', seller.full_name);
     expect(res.body.data).toHaveProperty('quantity', transaction.quantity);
+    expect(res.body.data).toHaveProperty('customer', transaction.customer);
+    expect(res.body.data).toHaveProperty('transaction_date');
     expect(res.body.data).toHaveProperty('status', statuses[1].name);
   });
 
@@ -87,6 +89,8 @@ describe('Transaction.create', () => {
     expect(res.body.data).toHaveProperty('do_number', transaction.do_number);
     expect(res.body.data).toHaveProperty('seller', seller.full_name);
     expect(res.body.data).toHaveProperty('quantity', transaction.quantity);
+    expect(res.body.data).toHaveProperty('customer', transaction.customer);
+    expect(res.body.data).toHaveProperty('transaction_date');
     expect(res.body.data).toHaveProperty('status', statuses[1].name);
   });
 

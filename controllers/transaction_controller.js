@@ -5,7 +5,7 @@ const help = require('../helpers/transaction');
 const create = async (req, res) => {
   try {
     const {
-      do_number, seller, customer, quantity,
+      do_number, seller, customer, quantity, transaction_date,
     } = req.body;
 
     const pendingStatus = await service.status.find({ name: 'Pending' });
@@ -19,7 +19,7 @@ const create = async (req, res) => {
     }
 
     const transaction = await service.transaction.create({
-      do_number, seller, customer, quantity, status,
+      do_number, seller, customer, quantity, transaction_date, status,
     });
 
     await service.history.create({ transaction_id: transaction.id, status });
@@ -57,7 +57,7 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      do_number, seller, customer, quantity,
+      do_number, seller, customer, quantity, transaction_date,
     } = req.body;
 
     const pendingStatus = await service.status.find({ name: 'Pending' });
@@ -82,7 +82,7 @@ const update = async (req, res) => {
     }
 
     transaction = await service.transaction.update({
-      do_number, seller, customer, quantity, status,
+      do_number, seller, customer, quantity, transaction_date, status,
     }, id);
 
     if (transaction) await service.history.create({ transaction_id: id, status });

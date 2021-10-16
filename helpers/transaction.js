@@ -4,6 +4,7 @@ const format = (transaction) => ({
   seller: transaction.seller_user.full_name,
   customer: transaction.customer,
   quantity: transaction.quantity,
+  transaction_date: transaction.transaction_date,
   status: transaction.transaction_status.name,
   createdAt: transaction.createdAt,
   updatedAt: transaction.updatedAt,

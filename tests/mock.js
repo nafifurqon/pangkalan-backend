@@ -33,6 +33,7 @@ const transaction = {
   seller: 1,
   customer: 'Pak RW',
   quantity: 5,
+  transaction_date: new Date('2021-10-14'),
   status: statuses[1].id,
 };
 
@@ -49,6 +50,7 @@ const another_transaction = {
   seller: 1,
   customer: 'Warung Pak Budi',
   quantity: 10,
+  transaction_date: new Date(),
   status: statuses[1].id,
 };
 

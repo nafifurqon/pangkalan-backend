@@ -52,7 +52,7 @@ afterAll(async () => {
   await service.user.removeAll();
 });
 
-describe('Transaction.update', () => {
+describe('Transaction.delete', () => {
   it('should return unauthorized when token is not set in request header', async () => {
     res = await request
       .delete(`/transactions/${transactionId}`);
@@ -73,8 +73,6 @@ describe('Transaction.update', () => {
       .delete(`/transactions/${transactionId}`)
       .set('Authorization', token);
 
-    console.log('res.body', res.body);
-
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('status', true);
     expect(res.body).toHaveProperty('message', 'Successfully deleted transaction');
@@ -83,10 +81,8 @@ describe('Transaction.update', () => {
 
   it('should failed delete transaction when transaction not found', async () => {
     res = await request
-      .delete(`/transactions/475673632`)
+      .delete('/transactions/475673632')
       .set('Authorization', token);
-
-    console.log('res.body', res.body);
 
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('status', false);

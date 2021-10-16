@@ -29,6 +29,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      transaction_date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -57,6 +57,8 @@ describe('Transaction.get', () => {
     expect(res.body.data).toHaveProperty('do_number', transaction.do_number);
     expect(res.body.data).toHaveProperty('seller');
     expect(res.body.data).toHaveProperty('quantity', transaction.quantity);
+    expect(res.body.data).toHaveProperty('customer', transaction.customer);
+    expect(res.body.data).toHaveProperty('transaction_date');
     expect(res.body.data).toHaveProperty('status', transaction.status);
     expect(res.body.data).toHaveProperty('histories');
 

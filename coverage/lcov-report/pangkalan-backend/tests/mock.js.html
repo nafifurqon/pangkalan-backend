@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for pangkalan-backend/models/user.js</title>
+    <title>Code coverage report for pangkalan-backend/tests/mock.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">pangkalan-backend/models</a> user.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">pangkalan-backend/tests</a> mock.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.59% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>81/83</span>
+                <span class='fraction'>83/83</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/9</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.59% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>81/83</span>
+                <span class='fraction'>83/83</span>
             </div>
         
             
@@ -183,8 +183,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -223,88 +221,90 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const {
-  Model,
-} = require('sequelize');
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable camelcase */
+const roles = [
+  { id: 1, name: 'Agen' },
+  { id: 2, name: 'Pangkalan' },
+  { id: 3, name: 'UMKM' },
+  { id: 4, name: 'Admin' },
+];
 &nbsp;
-const bcrypt = require('../libs/bcrypt');
+const user = {
+  email: 'test@email.com',
+  password: 'pa$$wordTest8',
+  full_name: 'Pangkalan Test Tambun Selatan',
+  address: 'Tambun Selatan',
+  role_id: roles[1].id,
+};
 &nbsp;
-module.exports = (sequelize, DataTypes) =&gt; {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      const { UserProfile } = models;
-      this.hasOne(UserProfile, { foreignKey: 'user_id', as: 'user_profile' });
-    }
+const another_user = {
+  email: 'test2@email.com',
+  password: 'pa$$wordTest82',
+  full_name: 'Pangkalan Test Tambun Selatan 2',
+  address: 'Tambun Selatan 2',
+  role_id: roles[1].id,
+};
 &nbsp;
-    static encrypt(password) {
-      return bcrypt.encrypt(password, 12);
-    }
+const statuses = [
+  { id: 1, name: 'Success' },
+  { id: 2, name: 'Pending' },
+  { id: 3, name: 'Failed' },
+];
 &nbsp;
-    checkPassword(password) {
-      return bcrypt.compare(password, this.password);
-    }
+const transaction = {
+  do_number: 'do1',
+  seller: 1,
+  customer: 'Pak RW',
+  quantity: 5,
+  transaction_date: new Date('2021-10-14'),
+  status: statuses[1].id,
+};
 &nbsp;
-    static async register({ email, password }) {
-      const encryptedPassword = this.encrypt(password);
+const updated_transaction = {
+  do_number: 'do1',
+  seller: 1,
+  customer: 'Pak RW',
+  quantity: 5,
+  status: statuses[0].id,
+};
 &nbsp;
-      return this.create({ email, password: encryptedPassword });
-    }
+const another_transaction = {
+  do_number: 'do2',
+  seller: 1,
+  customer: 'Warung Pak Budi',
+  quantity: 10,
+  transaction_date: new Date(),
+  status: statuses[1].id,
+};
 &nbsp;
-    static async authenticate({ email, password }) {
-      try {
-        const user = await this.findOne({ where: { email } });
-        if (!user) <span class="branch-0 cbranch-no" title="branch not covered" >return P</span>romise.reject(new Error('User not registered'));
+const update_another_transaction = {
+  do_number: 'do1',
+  seller: 1,
+  customer: 'Warung Pak Budi',
+  quantity: 10,
+  status: statuses[0].id,
+};
 &nbsp;
-        const isPasswordValid = user.checkPassword(password);
-        if (!isPasswordValid) <span class="branch-0 cbranch-no" title="branch not covered" >return P</span>romise.reject(new Error('Wrong password'));
+const expiresIn = '1d';
 &nbsp;
-        return Promise.resolve(user);
-      } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >        return Promise.reject(error);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-    }
-  }
-  User.init({
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: 'Email already registered',
-      },
-      validate: {
-        isEmail: {
-          args: true,
-          msg: 'Please input a valid email.',
-        },
-        notEmpty: {
-          args: true,
-          msg: 'Email cannot be empty.',
-        },
-      },
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Password cannot be empty.',
-        },
-      },
-    },
-  }, {
-    sequelize,
-    modelName: 'User',
-    tableName: 'users',
-  });
-  return User;
+const loginUser = {
+  email: 'test@email.com',
+  password: 'pa$$wordTest8',
+};
+&nbsp;
+module.exports = {
+  roles,
+  user,
+  transaction,
+  statuses,
+  another_transaction,
+  expiresIn,
+  loginUser,
+  updated_transaction,
+  another_user,
+  update_another_transaction,
 };
 &nbsp;</pre></td></tr></table></pre>
 

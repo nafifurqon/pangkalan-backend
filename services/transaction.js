@@ -73,17 +73,21 @@ const getAll = async (payload) => {
       || do_number
       || customer) {
       const dateArray = date && date.split('-');
-      const month = dateArray && dateArray[0];
-      const year = dateArray && dateArray[1];
+      const year = dateArray ? dateArray[0] : null;
+      const month = dateArray ? dateArray[1] : null;
 
       const transactionsByMonth = await sequelize.query(
-        `select * from transactions 
-        where seller = ${seller}
-        ${date ? `and extract(month from "transaction_date") = ${month}
-        and extract(year from "transaction_date") = ${year}` : ''}
-        ${start_date && end_date ? `and transaction_date between '${start_date}' and '${end_date}'` : ''}
-        ${do_number ? `and do_number = '${do_number}'` : ''}
-        ${customer ? `and customer like '%${customer}%'` : ''}`,
+        `
+        select * from transactions 
+        where seller = ${seller} and (
+        extract(month from "transaction_date") = ${month}
+        and extract(year from "transaction_date") = ${year}
+        or transaction_date between ${start_date ? `'${start_date}'` : null} 
+        and ${end_date ? `'${end_date}'` : null}
+        or do_number like ${do_number ? `'%${do_number}%'` : '\'\''}
+        or customer like ${customer ? `'%${customer}%'` : '\'\''}
+        )
+        `,
       );
 
       [transactions] = transactionsByMonth;

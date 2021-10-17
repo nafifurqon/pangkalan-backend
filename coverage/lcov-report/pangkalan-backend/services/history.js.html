@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for pangkalan-backend/app.js</title>
+    <title>Code coverage report for pangkalan-backend/services/history.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">pangkalan-backend</a> app.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">pangkalan-backend/services</a> history.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.72% </span>
+                <span class="strong">82.98% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/47</span>
+                <span class='fraction'>39/47</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.72% </span>
+                <span class="strong">82.98% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>37/47</span>
+                <span class='fraction'>39/47</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -112,6 +112,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -120,12 +122,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -141,63 +149,55 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const cors = require('cors');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { History } = require('../models');
 &nbsp;
-const passportJwt = require('./libs/passport_jwt');
+const create = async (payload) =&gt; {
+  try {
+    const history = await History.create(payload);
 &nbsp;
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const transactionRouter = require('./routes/transactions');
+    return Promise.resolve(history);
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >    return Promise.reject(error);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+};
 &nbsp;
-const app = express();
+const removeAll = async () =&gt; {
+  try {
+    const history = await History.sync({ force: true });
 &nbsp;
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+    return Promise.resolve(history);
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >    return Promise.reject(error);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+};
 &nbsp;
-app.use(logger('dev'));
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+const find = async (payload) =&gt; {
+  try {
+    const history = await History.findOne({ where: payload });
 &nbsp;
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/transactions', transactionRouter);
+    return Promise.resolve(history);
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >    return Promise.reject(error);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+};
 &nbsp;
-// catch 404 and forward to error handler
-app.use((req, res, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >  next(createError(404));</span>
-<span class="cstat-no" title="statement not covered" >});</span>
+const remove = async (payload) =&gt; {
+  try {
+    const history = await History.destroy({
+      where: payload,
+    });
 &nbsp;
-// error handler
-app.use((err, req, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  // set locals, only providing error in development</span>
-<span class="cstat-no" title="statement not covered" >  res.locals.message = err.message;</span>
-<span class="cstat-no" title="statement not covered" >  res.locals.error = req.app.get('env') === 'development' ? err : {};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  // render the error page</span>
-<span class="cstat-no" title="statement not covered" >  res.status(err.status || 500);</span>
-<span class="cstat-no" title="statement not covered" >  res.render('error');</span>
-<span class="cstat-no" title="statement not covered" >});</span>
+    return Promise.resolve(history);
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >    return Promise.reject(error);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+};
 &nbsp;
-module.exports = app;
+module.exports = {
+  create, removeAll, find, remove,
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -208,14 +208,14 @@ module.exports = app;
                 at Sun Oct 17 2021 16:15:03 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
-        <script src="../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

@@ -67,7 +67,7 @@ describe('Transaction.getAll', () => {
   it('should successfully get all transaction by month and seller', async () => {
     res = await request
       .get('/transactions')
-      .query({ date: '10-2021' })
+      .query({ date: '2021-10' })
       .set('Authorization', token);
 
     expect(res.statusCode).toBe(200);
@@ -148,11 +148,11 @@ describe('Transaction.getAll', () => {
     expect(res.body.data[0]).toHaveProperty('status');
   });
 
-  it('should successfully get all transaction by date, customer, and seller', async () => {
+  it('should successfully get all transaction by (date or customer) and seller', async () => {
     res = await request
       .get('/transactions')
       .query({
-        date: '10-2021',
+        date: '2021-10',
         customer: transaction.customer.split(' ')[1],
       })
       .set('Authorization', token);
@@ -172,7 +172,7 @@ describe('Transaction.getAll', () => {
     expect(res.body.data[0]).toHaveProperty('status');
   });
 
-  it('should successfully get all transaction by start_date/end_date, do_number, and seller', async () => {
+  it('should successfully get all transaction by (start_date/end_date or do_number) and seller', async () => {
     res = await request
       .get('/transactions')
       .query({
@@ -200,7 +200,7 @@ describe('Transaction.getAll', () => {
   it('should failed get all transaction by month when transaction is not found', async () => {
     res = await request
       .get('/transactions')
-      .query({ date: '09-2021' })
+      .query({ date: '2021-09' })
       .set('Authorization', token);
 
     expect(res.statusCode).toBe(404);
